@@ -1,0 +1,10 @@
+# dependencies
+/history_service/node_modules
+/user_service/node_modules
+
+# misc
+/.DS_Store
+/history_service/.DS_Store
+/user_service/.DS_Store
+/history_service/.env
+/user_service/.env
