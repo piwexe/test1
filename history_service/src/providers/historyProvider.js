@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const pool = require('../db/pool');
 
 const getHistory = async (userId, limit, offset) => {
@@ -23,6 +24,19 @@ const getTotalRecords = async (userId) => {
 };
 
 const addHistoryEvent = async (action, userId, timestamp) => {
+  
+  const schema = Joi.object({
+    action: Joi.string().required(),
+    userId: Joi.number().integer().required(),
+    timestamp: Joi.string().isoDate().required()
+  });
+ 
+  const { error } = schema.validate({ action, userId, timestamp });
+
+  if (error) {
+    throw new Error(`Validation error: ${error.details[0].message}`);
+  }
+
   const query = `
     INSERT INTO history (action, user_id, timestamp) 
     VALUES ($1, $2, $3) 
